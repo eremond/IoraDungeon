@@ -1,16 +1,17 @@
 import pygame
+import player
 import sprites
 
 class projectiles(sprites.sprites):
 
-    def __init__(self, player, image, direction, enemies):
-        sprites.sprites.__init__(self, image)
+    def __init__(self, player, image, enemies, position):
+        sprites.sprites.__init__(self, image, position)
         self.speed = 4
         self.enemies = enemies      #takes in a list of enemies
-        self.direction = direction
+        self.direction = player.direction
         self.rect.x, self.rect.y = player.rect.center
 
-    def update(self):
+    def update(self, *args):
         collision, enemy = self.collided()
         if self.checkCoord():       #make sure the projectile isnt out of bounds yet
             if not collision:
@@ -39,7 +40,6 @@ class projectiles(sprites.sprites):
     
     def collided(self):
         for enemy in self.enemies:      #check the entire list for collision
-            print(enemy)
             if self.rect.colliderect(enemy.rect):
                 return (True, enemy)        #if collision, return the collided sprite
         return (False, None)
