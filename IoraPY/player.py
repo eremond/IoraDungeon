@@ -1,82 +1,122 @@
 import sprites
 import pygame
 import os
-#pygame.init()
 
+class player(sprites.sprites):
 
-# Since derived from sprites, can call sprites functions 
-class player(sprites):
-	def __init__(self, image):	 #image should be a string to the path of the image
-		sprites.sprites.__init__(self, image)
-		self.HP = 3
+    def __init__(self, image, obstacles, position):	 #image should be a string to the path of the image
+        sprites.sprites.__init__(self, image, position)
+        self.health = 3
+        self.obstacles = obstacles
+        self.direction = 'down'
+        self.hit = False
+        self.speed = 2
+        self.leftAnim = self.loadAnimSprite('Character/LeftAnim')
+        self.rightAnim = self.loadAnimSprite('Character/RightAnim')
+        self.upAnim = self.loadAnimSprite('Character/UpAnim')
+        self.downAnim = self.loadAnimSprite('Character/DownAnim')
+        self.animQueue = [[self.leftAnim[0], self.leftAnim[1], self.leftAnim[2], self.leftAnim[1]],
+                            [self.rightAnim[0], self.rightAnim[1], self.rightAnim[2], self.rightAnim[1]],
+                            [self.upAnim[0], self.upAnim[1], self.upAnim[2], self.upAnim[1]],
+                            [self.downAnim[0], self.downAnim[1], self.downAnim[2], self.downAnim[1]]]
+        self.whichAnim = 3          #default to down animation
+        self.animPos = [0,0,0,0]    #left,right,up,down
+        self.timer = 0
 
-	def animGen(self,animation):     #helps the move function to generate the next image in the animation sequence
-	    x = 0
-	    a = 0
-	    order = (animation[0], animation[1], animation[2], animation[1])    #order of which the animation should be played
-	    while True:
-	        if x > len(order)-1:
-	            x = 0
-	        yield order[x]
-	        a+=1
-	        if a == 15:     #used to slow down the animation
-	            x+=1
-	            a = 0
+    def update(self, keys):
+        for num in range(len(self.animPos)):
+            if self.animPos[num] > 3:
+                self.animPos[num] = 0
+        if self.health == 0:
+            self.kill()
+        if keys[pygame.K_DOWN]:
+            if self.inBoundsDown():
+                self.rect.y+=self.speed
+            self.image = self.animQueue[3][self.animPos[3]]
+            self.direction = "down"
+            self.whichAnim = 3
+            if self.timer >= 10:
+                self.animPos[3]+=1
+                self.timer = 0
+            self.timer+=1
+        elif keys[pygame.K_UP]:
+            if self.inBoundsUp():
+                self.rect.y-=self.speed
+            self.image = self.animQueue[2][self.animPos[2]]
+            self.direction = "up"
+            self.whichAnim = 2
+            if self.timer >= 10:
+                self.animPos[2]+=1
+                self.timer = 0
+            self.timer+=1
+        elif keys[pygame.K_LEFT]:
+            if self.inBoundsLeft():
+                self.rect.x-=self.speed
+            self.image = self.animQueue[0][self.animPos[0]]
+            self.direction = "left"
+            self.whichAnim = 0
+            if self.timer >= 10:
+                self.animPos[0]+=1
+                self.timer = 0
+            self.timer+=1
+        elif keys[pygame.K_RIGHT]:
+            if self.inBoundsRight():
+                self.rect.x+=self.speed
+            self.image = self.animQueue[1][self.animPos[1]]
+            self.direction = "right"
+            self.whichAnim = 1
+            if self.timer >= 10:
+                self.animPos[1]+=1
+                self.timer = 0
+            self.timer+=1
+        else:
+            self.image = self.animQueue[self.whichAnim][1]       #idle state of the direction
+            self.timer = 0
 
-	def move(self, key, sprite, *animGens, animations):
-	    uAnim, dAnim, lAnim, rAnim = animGens
+    def inBoundsDown(self):
+        return self.rect.bottom < 480-16 and not self.checkTop()# and self.notInObject(obstacle)
+    
+    def inBoundsUp(self):
+        return self.rect.top > 16 and not self.checkBottom()# and self.notInObject(obstacle)
 
-	    if key[pygame.K_DOWN]:
-	        if sprite.rect.y < 480-16-sprite.rect.height:
-	            sprite.rect.y+=2
-	        return next(dAnim)
-	    elif key[pygame.K_UP]:
-	        if sprite.rect.y > 16:
-	            sprite.rect.y-=2
-	        return next(uAnim)
-	    elif key[pygame.K_LEFT]:
-	        if sprite.rect.x > 16:
-	            sprite.rect.x-=2
-	        return next(lAnim)
-	    elif key[pygame.K_RIGHT]:
-	        if sprite.rect.x < 640-16-sprite.rect.width:
-	            sprite.rect.x+=2
-	        return next(rAnim)
-	    else:
-	        return animations[1][1]
-	'''def move(self):
-		direction = pygame.key.get_pressed()
-		if direction[pygame.K_UP]:
-			self.'''
+    def inBoundsLeft(self):
+        return self.rect.left > 16 and not self.checkRight() # and self.notInObject(obstacle)
 
-'''
-	# Need to polish this 
-	def placeAt(self):
-		#----------Put character in starting position------------
-		player.rect.x = int(width/2)
-		player.rect.y = int(height-player.rect.height-20)
+    def inBoundsRight(self):
+        return self.rect.right < 640-16 and not self.checkLeft()
 
-	def getAnim(self):
-'''		
+    def checkLeft(self):
+        hit = False
+        for obstacle in self.obstacles:
+            if self.rect.collidepoint(obstacle.rect.midleft) or \
+                    self.rect.collidepoint(obstacle.rect.topleft) or \
+                    self.rect.collidepoint(obstacle.rect.bottomleft):
+                hit = True
+        return hit
 
+    def checkRight(self):
+        hit = False
+        for obstacle in self.obstacles:
+            if self.rect.collidepoint(obstacle.rect.midright) or \
+                    self.rect.collidepoint(obstacle.rect.topright) or \
+                    self.rect.collidepoint(obstacle.rect.bottomright):
+                hit = True
+        return hit
+    
+    def checkTop(self):
+        hit = False
+        for obstacle in self.obstacles:
+            if self.rect.collidepoint(obstacle.rect.midtop) or \
+                    self.rect.collidepoint(obstacle.rect.topleft) or \
+                    self.rect.collidepoint(obstacle.rect.topright):
+                hit = True
+        return hit
 
-'''
-Will come back to this
-#--------------------Set some variables-------------------
-width = 640
-height = 480
-size = width, height
-screen = pygame.display.set_mode(size)  #opens the physical screen
-clock = pygame.time.Clock()     #keeps track of the fps and stuff
-#--------------Create some sprite variables--------------
-player = sprites.sprites('Character/DownAnim/Down2.png')
-player.isType = "player"
-leftAnim = player.loadAnimSprite('Character/LeftAnim')
-rightAnim = player.loadAnimSprite('Character/RightAnim')
-upAnim = player.loadAnimSprite('Character/UpAnim')
-downAnim = player.loadAnimSprite('Character/DownAnim')
-uAnim = animGen(upAnim)
-dAnim = animGen(downAnim)
-lAnim = animGen(leftAnim) 
-rAnim = animGen(rightAnim)
-'''
+    def checkBottom(self):
+        hit = False
+        for obstacle in self.obstacles:
+            if self.rect.collidepoint(obstacle.rect.midbottom) or \
+                    self.rect.collidepoint(obstacle.rect.bottomleft) or \
+                    self.rect.collidepoint(obstacle.rect.bottomright):
+                hit = True
+        return hit
