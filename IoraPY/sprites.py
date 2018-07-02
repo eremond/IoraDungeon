@@ -2,11 +2,12 @@ import os
 import pygame
 
 class sprites(pygame.sprite.Sprite):
-    def __init__(self, image):     #image should be a string to the path of the image
+    def __init__(self, image, position):     #image should be a string to the path of the image
         pygame.sprite.Sprite.__init__(self)
         self.isType = "" #"type(obj) is type" can also be used in tandem
         self.image = pygame.image.load(image).convert_alpha()   #convert_alpha creates transparent background
         self.rect = self.image.get_rect()
+        self.rect.center = position
 
     def transformImage(self, img, x, y):
         self.image = pygame.transform.scale(img, (x, y)) #x, y is new size of image
