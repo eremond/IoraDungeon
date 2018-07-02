@@ -4,7 +4,7 @@ import time
 print(pygame.__path__)
 pygame.init()
 
-def makeLevel(screen, walls, sideWalls, sideFloor, floor, topFloor, cornerFloor):
+def makeBackground(screen, walls, sideWalls, sideFloor, floor, topFloor, cornerFloor):
     walls = pygame.transform.scale(walls, (16,16))
     sideWalls = pygame.transform.scale(sideWalls, (16,16))
     sideFloor = pygame.transform.scale(sideFloor, (16,16))
