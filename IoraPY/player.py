@@ -1,3 +1,4 @@
+import sprites
 import pygame
 import os
 #pygame.init()
@@ -6,7 +7,7 @@ import os
 # Since derived from sprites, can call sprites functions 
 class player(sprites):
 	def __init__(self, image):	 #image should be a string to the path of the image
-		sprites.__init__(self, image)
+		sprites.sprites.__init__(self, image)
 		self.HP = 3
 
 	def animGen(self,animation):     #helps the move function to generate the next image in the animation sequence
