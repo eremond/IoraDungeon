@@ -19,7 +19,7 @@ class sprites(pygame.sprite.Sprite):
 
     def getLeft(self):
         return self.rect.left
-        
+
     def getRight(self):
         return self.rect.right
 
@@ -28,6 +28,9 @@ class sprites(pygame.sprite.Sprite):
         for file in os.listdir(path):
             images.append(pygame.image.load(path + os.sep + file).convert_alpha())
         return images
+
+    def center(self, width, height):
+        self.rect.center = (width/2, height/2)
 
     """ def canMove(self, xCh, yCh, group):
         old_pos = self.rect.x, self.rect.y
