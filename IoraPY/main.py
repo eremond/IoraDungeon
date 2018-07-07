@@ -46,12 +46,12 @@ heroGroup = pygame.sprite.Group(player)
 
 
 #-----------------------Load images-----------------------
-img = pygame.image.load('level/bot_wall.jpg').convert()
-wallDown = pygame.image.load('level/Side_Walls_05.jpg').convert()
-sFloor = pygame.image.load('level/Left_edge_floor.jpg').convert()
-floor = pygame.image.load('level/floor.jpg').convert()
-tFloor = pygame.image.load('level/Top_edge_floor.jpg').convert()
-cFloor = pygame.image.load('level/Left_corner_floor.jpg').convert()
+img = pygame.image.load('images/bot_wall.jpg').convert()
+wallDown = pygame.image.load('images/Side_Walls_05.jpg').convert()
+sFloor = pygame.image.load('images/Left_edge_floor.jpg').convert()
+floor = pygame.image.load('images/floor.jpg').convert()
+tFloor = pygame.image.load('images/Top_edge_floor.jpg').convert()
+cFloor = pygame.image.load('images/Left_corner_floor.jpg').convert()
 
 #---------------------Game Loop--------------------------
 tabCount = 0
