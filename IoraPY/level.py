@@ -22,7 +22,7 @@ class level():
 			for y in x:
 				print(y)
 				if y is '#':
-					self.boxes.append(sprites.sprites('Obstacles/box.png', (xSpot, ySpot)))
+					self.boxes.append(sprites.sprites('IoraPy/Obstacles/box.png', (xSpot, ySpot)))
 					self.boxGroup.add(self.boxes[counter])
 					counter+=1
 				xSpot+=48
@@ -35,7 +35,7 @@ class level():
 		for x in self.design:
 			for y in x:
 				if y is 'X':
-					self.enemies.append(enemy.enemy('Enemies/slime.png', (xSpot, ySpot), self.boxes))
+					self.enemies.append(enemy.enemy('IoraPy/Enemies/slime.png', (xSpot, ySpot), self.boxes))
 				xSpot+=48
 			xSpot=0
 			ySpot+=58
