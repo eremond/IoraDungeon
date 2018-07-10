@@ -19,6 +19,7 @@ class titleScreen:
     def startTitle(self, screen):
         global finished
         global menuChoice
+        pygame.event.pump()
         self.choices = self.font.render(menuStrings[self.secret][menuChoice], True, (255,255,255))
         screen.blit(self.titleCard, self.titleCardRect)
         screen.blit(self.choices,self.choicesRect)
