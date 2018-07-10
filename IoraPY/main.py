@@ -9,6 +9,9 @@ pygame.init()
 
 
 #--------------------Set some variables-------------------
+himitsu = open('himitsu!/passes.txt', 'r')
+lValue = int(himitsu.read())
+himitsu.close()
 width = 640
 height = 480
 center = ((480/2), (640/2))
@@ -52,11 +55,16 @@ sFloor = pygame.image.load('images/Left_edge_floor.jpg').convert()
 floor = pygame.image.load('images/floor.jpg').convert()
 tFloor = pygame.image.load('images/Top_edge_floor.jpg').convert()
 cFloor = pygame.image.load('images/Left_corner_floor.jpg').convert()
-
+title = titleScreen.titleScreen(lValue)
 #---------------------Game Loop--------------------------
 tabCount = 0
 chosenElement = element[0]      #defualt to fire
 while 1:
+
+    while not title.isFinished():
+        screen.fill((0,0,0))
+        title.startTitle(screen)
+        pygame.display.flip()
 
     while not level1.isComplete(enemyGroup):
         pygame.event.pump()
