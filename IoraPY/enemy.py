@@ -23,10 +23,20 @@ class enemy(sprites.sprites):
 				elif self.rect.x<self.target.rect.x and self.inBoundsRight():
 					self.rect.x+=self.speed
 				#...and check we're not in a block.
-			else: #If collision, damage them and then die
-				self.kill()
-				self.rect.center = (-55,-55) #Put self out-of-bounds -- but not (-5,-5)
-				self.target.health -= 1 #Assumes target has HP (like player does)
+			elif self.target.invinc == 0: #If collision, damage them and give them knockback, etc.
+				#Following lines assume the target is a player. This code may need to be adjusted later.
+				self.target.health -= 1
+				self.target.invinc = 60 #How long invincibility lasts
+				self.target.kb = 4 #How long knockback lasts
+				#Knockback is delivered based on direction. Currently, diagonal knockback is possible.
+				if self.rect.y<self.target.rect.y and self.inBoundsDown():
+					self.target.kbdy = 10
+				elif self.rect.y>self.target.rect.y and self.inBoundsUp():
+					self.target.kbdy = -10
+				if self.rect.x>self.target.rect.x and self.inBoundsLeft():
+					self.target.kbdx = -10
+				elif self.rect.x<self.target.rect.x and self.inBoundsRight():
+					self.target.kbdx = 10
 
 	def inBoundsDown(self):
 		return self.rect.bottom < 480-16 and not self.checkTop()
