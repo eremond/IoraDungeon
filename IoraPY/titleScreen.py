@@ -8,7 +8,7 @@ finished = False
 
 class titleScreen:
     def __init__(self, secret):
-        self.font = pygame.font.Font('IoraPy/font/Connectionserif.otf',32)
+        self.font = pygame.font.Font('font/Connectionserif.otf',32)
         self.titleCard = self.font.render(titles[secret], True, (255,255,255))
         self.titleCardRect = self.titleCard.get_rect()
         self.titleCardRect.center = (640/2, 480/2)
