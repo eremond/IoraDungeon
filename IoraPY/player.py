@@ -15,10 +15,10 @@ class player(sprites.sprites):
 		self.kb = 0
 		self.kbdx = 0
 		self.kbdy = 0
-		self.leftAnim = self.loadAnimSprite('IoraPy/Character/LeftAnim')
-		self.rightAnim = self.loadAnimSprite('IoraPy/Character/RightAnim')
-		self.upAnim = self.loadAnimSprite('IoraPy/Character/UpAnim')
-		self.downAnim = self.loadAnimSprite('IoraPy/Character/DownAnim')
+		self.leftAnim = self.loadAnimSprite('Character/LeftAnim')
+		self.rightAnim = self.loadAnimSprite('Character/RightAnim')
+		self.upAnim = self.loadAnimSprite('Character/UpAnim')
+		self.downAnim = self.loadAnimSprite('Character/DownAnim')
 		self.animQueue = [[self.leftAnim[0], self.leftAnim[1], self.leftAnim[2], self.leftAnim[1]],
 							[self.rightAnim[0], self.rightAnim[1], self.rightAnim[2], self.rightAnim[1]],
 							[self.upAnim[0], self.upAnim[1], self.upAnim[2], self.upAnim[1]],
