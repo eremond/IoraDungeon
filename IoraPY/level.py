@@ -25,11 +25,15 @@ class level():
 					self.boxes.append(sprites.sprites('Obstacles/box.png', (xSpot, ySpot)))
 					self.boxGroup.add(self.boxes[counter])
 					counter+=1
+				elif y is 'X':
+					self.enemies.append(enemy.enemy('Enemies/slime.png', (xSpot, ySpot), self.boxes))
 				xSpot+=48
 			xSpot=0
 			ySpot+=58
 		#Reset counters to iterate through again -- this time for spawning enemies.
 		#(Obstacles list must be passed in for each enemy.)
+		# Leaving this in case something breaks
+		'''
 		xSpot = 16
 		ySpot = 16
 		for x in self.design:
@@ -38,7 +42,7 @@ class level():
 					self.enemies.append(enemy.enemy('Enemies/slime.png', (xSpot, ySpot), self.boxes))
 				xSpot+=48
 			xSpot=0
-			ySpot+=58
+			ySpot+=58'''
 			
 	def isComplete(self, enemyGroup):		   #checks to see if all enemies are cleared out
 		print(enemyGroup)
