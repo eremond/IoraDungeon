@@ -10,9 +10,9 @@ import titleScreen
 print(pygame.__path__)
 pygame.init()
 
-
+# IoraPy/
 #--------------------Set some variables-------------------
-himitsu = open(os.path.join('IoraPy', 'himitsu', 'passes.txt'), 'r')
+himitsu = open('himitsu/passes.txt', 'r')
 lValue = int(himitsu.read())
 himitsu.close()
 width = 640
@@ -36,14 +36,14 @@ allSprites = pygame.sprite.Group()
 enemies = []
 level1 = level.level(L1, enemies)
 level1.makeLevel()
-element = ['IoraPy/projectiles/fireProj.png', 'IoraPy/projectiles/iceProj.png', 'IoraPy/projectiles/lightProj.png']
+element = ['projectiles/fireProj.png', 'projectiles/iceProj.png', 'projectiles/lightProj.png']
 magic = pygame.sprite.Group()
 obstacles = level1.boxes
 obstacleGroup = pygame.sprite.Group()
 for spr in level1.boxes:
     allSprites.add(spr)
     obstacleGroup.add(spr)
-player = player.player('IoraPy/Character/DownAnim/Down2.png', obstacles, (width/2, height-50))
+player = player.player('Character/DownAnim/Down2.png', obstacles, (width/2, height-50))
 allSprites.add(player)
 heroGroup = pygame.sprite.Group(player)
 for enemy in enemies:
@@ -52,12 +52,12 @@ for enemy in enemies:
 enemyGroup = pygame.sprite.Group(enemies)
 
 #-----------------------Load images-----------------------
-img = pygame.image.load('IoraPy/images/bot_wall.jpg').convert()
-wallDown = pygame.image.load('IoraPy/images/Side_Walls_05.jpg').convert()
-sFloor = pygame.image.load('IoraPy/images/Left_edge_floor.jpg').convert()
-floor = pygame.image.load('IoraPy/images/floor.jpg').convert()
-tFloor = pygame.image.load('IoraPy/images/Top_edge_floor.jpg').convert()
-cFloor = pygame.image.load('IoraPy/images/Left_corner_floor.jpg').convert()
+img = pygame.image.load('images/bot_wall.jpg').convert()
+wallDown = pygame.image.load('images/Side_Walls_05.jpg').convert()
+sFloor = pygame.image.load('images/Left_edge_floor.jpg').convert()
+floor = pygame.image.load('images/floor.jpg').convert()
+tFloor = pygame.image.load('images/Top_edge_floor.jpg').convert()
+cFloor = pygame.image.load('images/Left_corner_floor.jpg').convert()
 title = titleScreen.titleScreen(lValue)
 #---------------------Game Loop--------------------------
 tabCount = 0
