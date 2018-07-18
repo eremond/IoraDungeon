@@ -11,6 +11,7 @@ print(pygame.__path__)
 pygame.init()
 
 # IoraPy/
+
 #--------------------Set some variables-------------------
 himitsu = open('himitsu/passes.txt', 'r')
 lValue = int(himitsu.read())
@@ -22,12 +23,12 @@ size = width, height
 screen = pygame.display.set_mode(size)  #opens the physical screen
 clock = pygame.time.Clock()     #keeps track of the fps and stuff
 L1 = [['-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'],
-      ['-', '-', '#', '-', '-', '-', '-', '-', '-', '-', '-', '#', '-'],
-      ['-', 'X', '-', 'X', '-', '-', 'X', '-', 'X', '-', '-', '-'],
+      ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'],
+      ['-', 'X', '#', 'X', '-', '-', 'X', '-', 'X', '-', '-', '#'],
       ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'],
-      ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'],
-      ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'],
-      ['-', '-', '#', '-', '-', '-', '-', '-', '-', '-', '-', '#', '-'],
+      ['-', '-', '-', '-', 'O', '-', '-', '-', '-', '-', '-', '-'],
+      ['-', '-', '#', '-', '-', '-', '-', '-', '-', '-', '-', '#'],
+      ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'],
       ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-']]
 
 
@@ -47,8 +48,8 @@ player = player.player('Character/DownAnim/Down2.png', obstacles, (width/2, heig
 allSprites.add(player)
 heroGroup = pygame.sprite.Group(player)
 for enemy in enemies:
-	enemy.target = player
-	allSprites.add(enemy)
+    enemy.target = player
+    allSprites.add(enemy)
 enemyGroup = pygame.sprite.Group(enemies)
 
 #-----------------------Load images-----------------------
@@ -95,6 +96,12 @@ while 1:
 
         allSprites.update(pygame.key.get_pressed())
         allSprites.draw(screen)
+        for enemy in enemies:
+            if hasattr(enemy, "boss_health"):
+                if enemy.boss_health > 0:
+                    bar = pygame.draw.rect(screen, (255, 0, 0), (220, 440, enemy.boss_health*10, 15))
+                else:
+                    bar = ""
         pygame.display.flip()   #ACTUALLY display all the images
         clock.tick(60)      #all animation and timing is based on this 60fps counter
     exit()

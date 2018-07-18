@@ -3,6 +3,7 @@ import sprites
 import projectiles
 import pygame
 import enemy
+import boss
 
 class level():
 	def __init__(self, design, enemies):	  #design is a 2d list
@@ -27,22 +28,26 @@ class level():
 					counter+=1
 				elif y is 'X':
 					self.enemies.append(enemy.enemy('Enemies/slime.png', (xSpot, ySpot), self.boxes))
+				elif y is 'O':
+					self.enemies.append(boss.boss('Enemies/orc.png', (xSpot, ySpot), self.boxes))
 				xSpot+=48
 			xSpot=0
 			ySpot+=58
 		#Reset counters to iterate through again -- this time for spawning enemies.
 		#(Obstacles list must be passed in for each enemy.)
-		# Leaving this in case something breaks
-		'''
+		#Leaving this in case something breaks
+		"""
 		xSpot = 16
 		ySpot = 16
 		for x in self.design:
 			for y in x:
 				if y is 'X':
 					self.enemies.append(enemy.enemy('Enemies/slime.png', (xSpot, ySpot), self.boxes))
+				if y is 'O':
+					self.enemies.append(boss.boss('Enemies/orc.png', (xSpot, ySpot), self.boxes))
 				xSpot+=48
 			xSpot=0
-			ySpot+=58'''
+			ySpot+=58"""
 			
 	def isComplete(self, enemyGroup):		   #checks to see if all enemies are cleared out
 		print(enemyGroup)
