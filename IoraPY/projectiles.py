@@ -1,6 +1,7 @@
 import pygame
 import player
 import sprites
+import boss
 
 class projectiles(sprites.sprites):
 
@@ -27,8 +28,14 @@ class projectiles(sprites.sprites):
                 if enemy.alive():
                     self.kill()     #kill the projectile, enemy
                     self.rect.center = (-5,-5)      #throw the projectile recet out to avoid unnecessary collision
-                    enemy.kill()                    #do the same for the enemy sprite
-                    enemy.rect.center = (-5, -5)
+                    if hasattr(enemy, 'boss_health'): #only if the enemy is a boss, the projectile ticks health down to zero
+                        enemy.boss_health -= 1
+                        if enemy.boss_health == 0:
+                            enemy.kill()
+                            enemy.rect.center = (-5, -5)
+                    else:
+                        enemy.kill()                    #do the same for the enemy sprite
+                        enemy.rect.center = (-5, -5)
         else:
             self.kill()     #don't need to worry about the rect since its out of bounds
     
