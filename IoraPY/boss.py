@@ -5,7 +5,7 @@ import enemy
 import projectiles
 import random
 
-class boss_bullet(pygame.sprite.Sprite): # only for use with boss class; currently not working...
+"""class boss_bullet(pygame.sprite.Sprite): # only for use with boss class; currently not working...
 
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
@@ -19,6 +19,7 @@ class boss_bullet(pygame.sprite.Sprite): # only for use with boss class; current
         self.rect.y += self.speed
         if self.rect.bottom > 480:
             self.kill()
+"""
 
 class boss(sprites.sprites):
 
@@ -28,12 +29,11 @@ class boss(sprites.sprites):
         self.speed = 1
         self.target = ""
         self.obstacles = obstacles
-        self.rand_clock = pygame.time.Clock()
+        self.orientation = 'left'
+        self.direction = 'down'
     
     def update(self, *args):
         # We want bosses to move more slowly, take more hits, and spawn projectiles/enemies
-        self.timer = random.randint(2, 6)
-        self.dir_timer = 0
 
 
         if self.target.alive():
@@ -46,11 +46,14 @@ class boss(sprites.sprites):
                     self.rect.y = self.rect.y - self.speed
                 if self.rect.x>self.target.rect.x and self.inBoundsLeft():
                     self.rect.x = self.rect.x - self.speed
+                    if self.orientation == 'right':
+                        self.image = pygame.transform.flip(self.image, True, False)
+                    self.orientation = 'left'
                 elif self.rect.x<self.target.rect.x and self.inBoundsRight():
                     self.rect.x = self.rect.x + self.speed
-                """if self.timer <= 4:
-                    self.bossShoot()
-                    self.timer = random.randint(2, 6) """
+                    if self.orientation == 'left':
+                        self.image = pygame.transform.flip(self.image, True, False)
+                    self.orientation = 'right'
 
             elif self.target.invinc == 0:
                 self.target.health -= 1
@@ -66,10 +69,6 @@ class boss(sprites.sprites):
                     self.target.kbdx = 20
 
         #Maybe some they have different frames and knockback
-    
-    """def bossShoot(self):
-        bullet = boss_bullet(self.rect.centerx, self.rect.bottom)
-    """
 
     def inBoundsDown(self):
         return self.rect.bottom < 480 - 16 and not self.checkTop()
