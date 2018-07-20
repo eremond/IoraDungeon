@@ -51,6 +51,8 @@ for enemy in enemies:
     enemy.target = player
     allSprites.add(enemy)
 enemyGroup = pygame.sprite.Group(enemies)
+bossBulletTarget = [player]
+bulletLoops = 0
 
 #-----------------------Load images-----------------------
 img = pygame.image.load('images/bot_wall.jpg').convert()
@@ -100,8 +102,18 @@ while 1:
             if hasattr(enemy, "boss_health"):
                 if enemy.boss_health > 0:
                     bar = pygame.draw.rect(screen, (255, 0, 0), (220, 440, enemy.boss_health*10, 15))
+                    if bulletLoops % 60 == 0:
+                           allSprites.add(projectiles.projectiles(enemy, 'projectiles/boss_bullet.png', bossBulletTarget, enemy.rect.center))
+                           enemy.direction = 'up'
+                           allSprites.add(projectiles.projectiles(enemy, 'projectiles/boss_bullet.png', bossBulletTarget, enemy.rect.center))
+                           enemy.direction = 'left'
+                           allSprites.add(projectiles.projectiles(enemy, 'projectiles/boss_bullet.png', bossBulletTarget, enemy.rect.center))
+                           enemy.direction = 'right'
+                           allSprites.add(projectiles.projectiles(enemy, 'projectiles/boss_bullet.png', bossBulletTarget, enemy.rect.center))
+                           enemy.direction = 'down'
                 else:
                     bar = ""
         pygame.display.flip()   #ACTUALLY display all the images
+        bulletLoops += 1
         clock.tick(60)      #all animation and timing is based on this 60fps counter
     exit()

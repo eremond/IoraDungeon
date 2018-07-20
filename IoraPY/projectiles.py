@@ -33,6 +33,8 @@ class projectiles(sprites.sprites):
                         if enemy.boss_health == 0:
                             enemy.kill()
                             enemy.rect.center = (-5, -5)
+                    elif hasattr(enemy, 'health'): #essentially only if the 'enemy' is the player
+                        enemy.health -= 1
                     else:
                         enemy.kill()                    #do the same for the enemy sprite
                         enemy.rect.center = (-5, -5)
