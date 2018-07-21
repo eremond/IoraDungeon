@@ -8,6 +8,7 @@ class enemy(sprites.sprites):
 		sprites.sprites.__init__(self, image, position)
 		self.speed = 1
 		self.target = "" #Begins with none -- defined by main.py
+		self.enemies = [] #Defined by main.py
 		self.obstacles = obstacles
 		
 	def update(self, *args):
@@ -57,6 +58,13 @@ class enemy(sprites.sprites):
 					self.rect.collidepoint(obstacle.rect.topleft) or \
 					self.rect.collidepoint(obstacle.rect.bottomleft):
 				hit = True
+		for enemy in self.enemies:
+			if enemy == self:
+				continue
+			elif self.rect.collidepoint(enemy.rect.midleft) or \
+					self.rect.collidepoint(enemy.rect.topleft) or \
+					self.rect.collidepoint(enemy.rect.bottomleft):
+				hit = True
 		return hit
 
 	def checkRight(self):
@@ -65,6 +73,13 @@ class enemy(sprites.sprites):
 			if self.rect.collidepoint(obstacle.rect.midright) or \
 					self.rect.collidepoint(obstacle.rect.topright) or \
 					self.rect.collidepoint(obstacle.rect.bottomright):
+				hit = True
+		for enemy in self.enemies:
+			if enemy == self:
+				continue
+			elif self.rect.collidepoint(enemy.rect.midright) or \
+					self.rect.collidepoint(enemy.rect.topright) or \
+					self.rect.collidepoint(enemy.rect.bottomright):
 				hit = True
 		return hit
 	
@@ -75,6 +90,13 @@ class enemy(sprites.sprites):
 					self.rect.collidepoint(obstacle.rect.topleft) or \
 					self.rect.collidepoint(obstacle.rect.topright):
 				hit = True
+		for enemy in self.enemies:
+			if enemy == self:
+				continue
+			elif self.rect.collidepoint(enemy.rect.midtop) or \
+					self.rect.collidepoint(enemy.rect.topleft) or \
+					self.rect.collidepoint(enemy.rect.topright):
+				hit = True
 		return hit
 
 	def checkBottom(self):
@@ -83,5 +105,12 @@ class enemy(sprites.sprites):
 			if self.rect.collidepoint(obstacle.rect.midbottom) or \
 					self.rect.collidepoint(obstacle.rect.bottomleft) or \
 					self.rect.collidepoint(obstacle.rect.bottomright):
+				hit = True
+		for enemy in self.enemies:
+			if enemy == self:
+				continue
+			elif self.rect.collidepoint(enemy.rect.midbottom) or \
+					self.rect.collidepoint(enemy.rect.bottomleft) or \
+					self.rect.collidepoint(enemy.rect.bottomright):
 				hit = True
 		return hit

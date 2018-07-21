@@ -45,10 +45,11 @@ for spr in level1.boxes:
     allSprites.add(spr)
     obstacleGroup.add(spr)
 player = player.player('Character/DownAnim/Down2.png', obstacles, (width/2, height-50))
-allSprites.add(player)
+
 heroGroup = pygame.sprite.Group(player)
 for enemy in enemies:
     enemy.target = player
+    enemy.enemies = enemies #For them to check collision with one another.
     allSprites.add(enemy)
 enemyGroup = pygame.sprite.Group(enemies)
 bossBulletTarget = [player]
@@ -61,6 +62,7 @@ sFloor = pygame.image.load('images/Left_edge_floor.jpg').convert()
 floor = pygame.image.load('images/floor.jpg').convert()
 tFloor = pygame.image.load('images/Top_edge_floor.jpg').convert()
 cFloor = pygame.image.load('images/Left_corner_floor.jpg').convert()
+heart = pygame.image.load('HUD/heart.png').convert().convert_alpha()
 title = titleScreen.titleScreen(lValue)
 #---------------------Game Loop--------------------------
 tabCount = 0
@@ -98,6 +100,13 @@ while 1:
 
         allSprites.update(pygame.key.get_pressed())
         allSprites.draw(screen)
+        for x in range(0,player.health):
+            screen.blit(heart, (0+(16*x), 0)) #Display HP.
+        screen.blit(pygame.image.load(element[tabCount]).convert(), (0,16)) #Display element.
+        #Now service player after everything else.
+        player.update(pygame.key.get_pressed()) #Update player
+        if (player.health>0 and player.invinc%2==0):
+            screen.blit(player.image, player.rect) #Draw them if necessary
         for enemy in enemies:
             if hasattr(enemy, "boss_health"):
                 if enemy.boss_health > 0:
