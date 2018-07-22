@@ -4,26 +4,46 @@ import sprites
 
 class enemy(sprites.sprites):
 
-	def __init__(self, image, position, obstacles):
+	def __init__(self, image, position, obstacles, type):
 		sprites.sprites.__init__(self, image, position)
-		self.speed = 1
 		self.target = "" #Begins with none -- defined by main.py
 		self.enemies = [] #Defined by main.py
 		self.obstacles = obstacles
+		self.type = type
+		if type==0:
+			self.speed = 1
+		if type==1:
+			self.speed = -60 #Speed variable also controls WHEN flame can move.
 		
 	def update(self, *args):
 		if self.target.alive(): #Don't do anything if the target (player) is dead.
 			collision = self.rect.colliderect(self.target.rect) #Check collision with target (player)
 			if not collision: #If no collision, move...
-				if self.rect.y<self.target.rect.y and self.inBoundsDown():
-					self.rect.y+=self.speed
-				elif self.rect.y>self.target.rect.y and self.inBoundsUp():
-					self.rect.y-=self.speed
-				if self.rect.x>self.target.rect.x and self.inBoundsLeft():
-					self.rect.x-=self.speed
-				elif self.rect.x<self.target.rect.x and self.inBoundsRight():
-					self.rect.x+=self.speed
-				#...and check we're not in a block.
+				#Movement depends on what type of enemy we are.
+				if self.type==0: #Slime.
+					if self.rect.y<self.target.rect.y and self.inBoundsDown():
+						self.rect.y+=self.speed
+					elif self.rect.y>self.target.rect.y and self.inBoundsUp():
+						self.rect.y-=self.speed
+					if self.rect.x>self.target.rect.x and self.inBoundsLeft():
+						self.rect.x-=self.speed
+					elif self.rect.x<self.target.rect.x and self.inBoundsRight():
+						self.rect.x+=self.speed
+				elif self.type==1: #Flame can only move in shuffles.
+					if self.speed<0:
+						self.speed += 1
+						return
+					if self.rect.y<self.target.rect.y and self.inBoundsDown():
+						self.rect.y+=self.speed/10
+					elif self.rect.y>self.target.rect.y and self.inBoundsUp():
+						self.rect.y-=self.speed/10
+					if self.rect.x>self.target.rect.x and self.inBoundsLeft():
+						self.rect.x-=self.speed/10
+					elif self.rect.x<self.target.rect.x and self.inBoundsRight():
+						self.rect.x+=self.speed/10
+					self.speed += 1
+					if self.speed>40:
+						self.speed = -60
 			elif self.target.invinc == 0: #If collision, damage them and give them knockback, etc.
 				#Following lines assume the target is a player. This code may need to be adjusted later.
 				self.target.health -= 1

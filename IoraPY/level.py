@@ -27,7 +27,9 @@ class level():
 					self.boxGroup.add(self.boxes[counter])
 					counter+=1
 				elif y is 'X':
-					self.enemies.append(enemy.enemy('Enemies/slime.png', (xSpot, ySpot), self.boxes))
+					self.enemies.append(enemy.enemy('Enemies/slime.png', (xSpot, ySpot), self.boxes, 0)) #Last parameter is enemy type.
+				elif y is '1':
+					self.enemies.append(enemy.enemy('Enemies/flame.png', (xSpot, ySpot), self.boxes, 1))
 				elif y is 'O':
 					self.enemies.append(boss.boss('Enemies/orc.png', (xSpot, ySpot), self.boxes))
 				xSpot+=48
