@@ -9,13 +9,17 @@ class enemy(sprites.sprites):
 		self.target = "" #Begins with none -- defined by main.py
 		self.enemies = [] #Defined by main.py
 		self.obstacles = obstacles
+		self.health = 1
 		self.type = type
 		if type==0:
 			self.speed = 1
 		if type==1:
 			self.speed = -60 #Speed variable also controls WHEN flame can move.
-		
+
 	def update(self, *args):
+		if self.health <= 0:
+			self.kill()
+			self.rect.center = (-5, -5)
 		if self.target.alive(): #Don't do anything if the target (player) is dead.
 			collision = self.rect.colliderect(self.target.rect) #Check collision with target (player)
 			if not collision: #If no collision, move...
@@ -61,7 +65,7 @@ class enemy(sprites.sprites):
 
 	def inBoundsDown(self):
 		return self.rect.bottom < 480-16 and not self.checkTop()
-	
+
 	def inBoundsUp(self):
 		return self.rect.top > 16 and not self.checkBottom()
 
@@ -102,7 +106,7 @@ class enemy(sprites.sprites):
 					self.rect.collidepoint(enemy.rect.bottomright):
 				hit = True
 		return hit
-	
+
 	def checkTop(self):
 		hit = False
 		for obstacle in self.obstacles:

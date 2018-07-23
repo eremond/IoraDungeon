@@ -31,7 +31,7 @@ class boss(sprites.sprites):
         self.obstacles = obstacles
         self.orientation = 'left'
         self.direction = 'down'
-    
+
     def update(self, *args):
         # We want bosses to move more slowly, take more hits, and spawn projectiles/enemies
 
