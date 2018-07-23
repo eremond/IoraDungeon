@@ -5,17 +5,20 @@ import boss
 
 class projectiles(sprites.sprites):
 
-    def __init__(self, player, image, enemies, position):
+    def __init__(self, player, image, enemies,chests, position,type):
         sprites.sprites.__init__(self, image, position)
         self.speed = 4
         self.enemies = enemies      #takes in a list of enemies
+        self.chests = chests
         self.direction = player.direction
+        self.type = type
         self.rect.x, self.rect.y = player.rect.center
 
     def update(self, *args):
         collision, enemy = self.collided()
+        collision_gem, gem = self.collided_gem()
         if self.checkCoord():       #make sure the projectile isnt out of bounds yet
-            if not collision:
+            if (not collision and not collision_gem):
                 if self.direction is "down":
                     self.rect.y+=self.speed
                 if self.direction is "up":
@@ -24,7 +27,7 @@ class projectiles(sprites.sprites):
                     self.rect.x-=self.speed
                 if self.direction is "right":
                     self.rect.x+=self.speed
-            else:
+            elif(collision):
                 if enemy.alive():
                     self.kill()     #kill the projectile, enemy
                     self.rect.center = (-5,-5)      #throw the projectile recet out to avoid unnecessary collision
@@ -35,20 +38,30 @@ class projectiles(sprites.sprites):
                             enemy.rect.center = (-5, -5)
                     elif hasattr(enemy, 'health'): #essentially only if the 'enemy' is the player
                         enemy.health -= 1
-                    else:
-                        enemy.kill()                    #do the same for the enemy sprite
-                        enemy.rect.center = (-5, -5)
+            elif(collision_gem):
+                self.kill()
+                if gem.alive():
+                    if (self.type == gem.type):
+                        gem.kill()                    #do the same for the enemy sprite
+                        gem.rect.center = (-5, -5)
+
         else:
             self.kill()     #don't need to worry about the rect since its out of bounds
-    
+
     def checkCoord(self):
         if self.rect.right > 0 and self.rect.left < 640 and self.rect.top < 480 \
            and self.rect.bottom > 0:
             return True
         return False
-    
+
     def collided(self):
         for enemy in self.enemies:      #check the entire list for collision
             if self.rect.colliderect(enemy.rect):
                 return (True, enemy)        #if collision, return the collided sprite
+        return (False, None)
+
+    def collided_gem(self):
+        for chest in self.chests:      #check the entire list for collision
+            if self.rect.colliderect(chest.rect):
+                return (True, chest)        #if collision, return the collided sprite
         return (False, None)

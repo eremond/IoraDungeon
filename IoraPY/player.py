@@ -6,7 +6,7 @@ class player(sprites.sprites):
 
 	def __init__(self, image, obstacles, position):	 #image should be a string to the path of the image
 		sprites.sprites.__init__(self, image, position)
-		self.health = 3
+		self.health = 5
 		self.obstacles = obstacles
 		self.direction = 'down'
 		self.hit = False
@@ -88,7 +88,7 @@ class player(sprites.sprites):
 
 	def inBoundsDown(self):
 		return self.rect.bottom < 480-16 and not self.checkTop()# and self.notInObject(obstacle)
-	
+
 	def inBoundsUp(self):
 		return self.rect.top > 16 and not self.checkBottom()# and self.notInObject(obstacle)
 
@@ -115,7 +115,7 @@ class player(sprites.sprites):
 					self.rect.collidepoint(obstacle.rect.bottomright):
 				hit = True
 		return hit
-	
+
 	def checkTop(self):
 		hit = False
 		for obstacle in self.obstacles:
