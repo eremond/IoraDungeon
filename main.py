@@ -226,7 +226,7 @@ while 1:
         player.obstacles = obstacles
         player.rect.center = (width/2, height-50)
         level1.isPuzzleDone = False
-    fade.fadeOut(screen)
+    #fade.fadeOut(screen)           #not working yet!
 
     while not level3.isComplete(enemyGroup):        #start level 3's game loop
         pygame.event.pump()
