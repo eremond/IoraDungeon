@@ -7,6 +7,7 @@ import player
 import level
 import titleScreen
 import time
+from randlevels import genlevel
 
 print(pygame.__path__)
 pygame.init()
@@ -410,10 +411,16 @@ while check != 0:
     for x in obstacleGroup.sprites():
         x.kill()
         x.rect.center = (-55,-55) #Put self out-of-bounds -- but not (-5,-5)
-    levelgen(screen,L2,'Level 1 Room 2','Get some hair on your chest','chest',2)
-    levelgen(screen,L3,'Level 2 Room 1','Flame fun','kill-all',3)
-    levelgen(screen,L4,'Level 2 Room 2','Honor the gods','gems',4)
-    levelgen(screen,L5,'Level 3 Room 1','Why cant we just get along?','kill-all',5)
-    levelgen(screen,L6,'Level 3 Room 2','I hate this guy','kill-all',6)
+    if title.endless == 1:
+      while 1:
+        R1 = genlevel()
+        levelgen(screen,R1,'Endless' ,'Endless', 'kill-all',0)
+    else:
+
+      levelgen(screen,L2,'Level 1 Room 2','Get some hair on your chest','chest',2)
+      levelgen(screen,L3,'Level 2 Room 1','Flame fun','kill-all',3)
+      levelgen(screen,L4,'Level 2 Room 2','Honor the gods','gems',4)
+      levelgen(screen,L5,'Level 3 Room 1','Why cant we just get along?','kill-all',5)
+      levelgen(screen,L6,'Level 3 Room 2','I hate this guy','kill-all',6)
 
     exit()
