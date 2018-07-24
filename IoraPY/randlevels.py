@@ -1,9 +1,19 @@
-import pygame
+#import pygame
 import random
+
+import pygame
+import os
+import background
+import sprites
+import projectiles
+import player
+import level
+import titleScreen
+import time
 
 # Returns a randomly generated 2d array
 def genlevel():
-	level = []
+	level = [['-', '-', '-', '-', '-', '-', '-', '-', '-', '-','-', '-', '-','-','-','!']]
 	choices = ['-', '-','X','#', '-','-']
 	temp = []
 	enemy_count = 0
