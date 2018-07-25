@@ -1,4 +1,4 @@
-import pygame
+﻿import pygame
 import os
 import background
 import sprites
@@ -186,7 +186,7 @@ def levelgen(screen,layout,title,sub_title,conditions,L):
             if levelgen.isComplete(enemyGroup):
                 for sp in por:
                     sp.target = player
-                    if (L==6):
+                    if (L==9):
                         sp.rect.center = (150,400)
                         allSprites.add(sp)
                         myfont = pygame.font.SysFont('Comic Sans MS', 25)
@@ -224,16 +224,36 @@ def levelgen(screen,layout,title,sub_title,conditions,L):
             if hasattr(enemy, "boss_health"):
                 if enemy.boss_health > 0:
                     bar = pygame.draw.rect(screen, (255, 0, 0), (220, 440, enemy.boss_health*10, 15))
-                    if bulletLoops > 80:
-                           allSprites.add(projectiles.projectiles(enemy, 'projectiles/boss_bullet.png', bossBulletTarget,chests, enemy.rect.center,'orc'))
-                           enemy.direction = 'up'
-                           allSprites.add(projectiles.projectiles(enemy, 'projectiles/boss_bullet.png', bossBulletTarget,chests, enemy.rect.center,'orc'))
-                           enemy.direction = 'left'
-                           allSprites.add(projectiles.projectiles(enemy, 'projectiles/boss_bullet.png', bossBulletTarget,chests, enemy.rect.center,'orc'))
-                           enemy.direction = 'right'
-                           allSprites.add(projectiles.projectiles(enemy, 'projectiles/boss_bullet.png', bossBulletTarget,chests, enemy.rect.center,'orc'))
-                           enemy.direction = 'down'
-                           bulletLoops = 0
+                    if enemy.isType == "Orc":
+                        if bulletLoops % 80 == 0:
+                            allSprites.add(projectiles.projectiles(enemy, 'projectiles/boss_bullet.png', bossBulletTarget,chests, enemy.rect.center,'orc'))
+                            enemy.direction = 'up'
+                            allSprites.add(projectiles.projectiles(enemy, 'projectiles/boss_bullet.png', bossBulletTarget,chests, enemy.rect.center,'orc'))
+                            enemy.direction = 'left'
+                            allSprites.add(projectiles.projectiles(enemy, 'projectiles/boss_bullet.png', bossBulletTarget,chests, enemy.rect.center,'orc'))
+                            enemy.direction = 'right'
+                            allSprites.add(projectiles.projectiles(enemy, 'projectiles/boss_bullet.png', bossBulletTarget,chests, enemy.rect.center,'orc'))
+                            enemy.direction = 'down'
+                            bulletLoops = 0
+                    elif enemy.isType == "Tenta":
+                        if bulletLoops % 40 == 0:
+                            enemy.direction = 'right'
+                            allSprites.add(projectiles.projectiles(enemy, 'projectiles/flame_projectile.png', bossBulletTarget, chests, enemy.rect.center, 'orc'))
+                            enemy.direction = 'left'
+                            allSprites.add(projectiles.projectiles(enemy, 'projectiles/flame_projectile.png', bossBulletTarget, chests, enemy.rect.center, 'orc'))
+                            enemy.direction = 'right'
+                    elif enemy.isType == "Cat_Staff":
+                        cloop = 0
+                        if bulletLoops % 180 == 0:
+                            enemy.currentAnim = enemy.catThrow
+                        if enemy.currentAnim == enemy.catThrow:
+                            enemy.catloop += 1
+                            if enemy.catloop % 24 == 0:
+                                enemy.direction = "targeting"
+                                allSprites.add(projectiles.projectiles(enemy, 'projectiles/cat_projectile.png', bossBulletTarget, chests, enemy.rect.center, 'cat_staff'))
+                            if enemy.catloop % 48 == 0:
+                                enemy.currentAnim = enemy.catIdle
+                                enemy.catloop = 0
                 else:
                     bar = ""
         ### On-Screen Text
@@ -299,7 +319,7 @@ L2 = [['-', '-', '-', '-', '-', '-', '-', '-', '-', '-','-', '-', '-','-','-','!
       ['-', '-', '¡', '-', '-', '-', '-', '-', '-', '-','-', '¡', '-'],
       ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-','-', '-', '-']]
 
-L3 = [['-', '-', '-', '-', '-', '-', '-', '-', '-', '-','-', '-', '-','-','-','!'],
+L4 = [['-', '-', '-', '-', '-', '-', '-', '-', '-', '-','-', '-', '-','-','-','!'],
       ['-', '-', '-', 'X', '-', '-', 'X', '-', '#', '-','-', '%', '-'],
       ['-', '-', '-', 'X', 'X', '-', 'X', '-', '-', 'X','¡', '-', '-'],
       ['-', '-', 'X', '-', '-', '-', '-', '-', '-', '-','-', '-', '-'],
@@ -308,7 +328,7 @@ L3 = [['-', '-', '-', '-', '-', '-', '-', '-', '-', '-','-', '-', '-','-','-','!
       ['-', '¡', '-', '-', '-', '-', '-', '-', '-', '-','-', '#', '-'],
       ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-','-', '-', '-']]
 
-L4 = [['-', '-', '-', '-', '-', '-', '-', '-', '-', '-','-', '-', '-','-','-','!'],
+L5 = [['-', '-', '-', '-', '-', '-', '-', '-', '-', '-','-', '-', '-','-','-','!'],
       ['-', '-', '¡', '-', 'R', '-', '-', '-', '-', 'B','-', '¡', '-'],
       ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-','-', '-', '-'],
       ['-', '-', '1', '-', '-', '-', '-', '-', '-', '-','-', '1', '-'],
@@ -317,7 +337,7 @@ L4 = [['-', '-', '-', '-', '-', '-', '-', '-', '-', '-','-', '-', '-','-','-','!
       ['-', '-', '¡', '-', '-', '-', '-', '-', '-', '-','-', '¡', '-'],
       ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-','-', '-', '-']]
 
-L5 = [['-', '-', '-', '-', '-', '-', '-', '-', '-', '-','-', '-', '-','-','-','!'],
+L7 = [['-', '-', '-', '-', '-', '-', '-', '-', '-', '-','-', '-', '-','-','-','!'],
       ['-', '-', '-', 'X', 'X', '#', '#', '#', '-', '-','-', '#', '-'],
       ['-', '-', '-', 'X', 'X', '#', '¡', '#', '-', '1','1', '-', '-'],
       ['-', '-', '¡', '-', '-', '#', '¡', '#', '-', '1','1', '-', '-'],
@@ -326,13 +346,40 @@ L5 = [['-', '-', '-', '-', '-', '-', '-', '-', '-', '-','-', '-', '-','-','-','!
       ['-', '-', '-', '-', '-', '-', '-', '-', '#', '-','-', '¡', '-'],
       ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-','-', '-', '-']]
 
-L6 = [['-', '-', '-', '-', '-', '-', '-', '-', '-', '-','-', '-', '-','-','-','!'],
+L3 = [['-', '-', '-', '-', '-', '-', '-', '-', '-', '-','-', '-', '-','-','-','!'],
       ['-', '#', '-', 'X', '-', '-', 'X', '-', '#', '-','-', '%', '-'],
       ['-', '-', '-', 'X', 'X', '-', 'X', '-', '#', '#','¡', '-', '-'],
       ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-','-', '-', '-'],
       ['-', '-', '#', '-', '-', '-', '-', '-', '-', '-','O', '-', '-'],
       ['-', '-', '-', '#', '-', '-', '-', '-', '#', '-','-', '-', '-'],
       ['-', '#', '-', '-', '-', '-', '-', '-', '#', '-','-', '%', '-'],
+      ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-','-', '-', '-']]
+
+L6 = [['-', '-', '-', '-', '-', '-', '-', '-', '-', '-','-', '-', '-','-','-','!'],
+      ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#','#', '#', '#'],
+      ['-', '-', '-', '-', '-', '-', 'S', '-', '-', '-','-', '-', '-'],
+      ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-','-', '-', '-'],
+      ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-','-', '-', '-'],
+      ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-','-', '-', '-'],
+      ['#', '#', '#', '#', '#', '#', '-', '#', '#', '#','#', '#', '#'],
+      ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-','-', '-', '-']]
+
+L8 = [['-', '¡', '-', '-', '-', '-', '-', '-', '-', '-','-', '¡', '-','-','-','!'],
+      ['-', '¡', 'X', '-', '-', '¡', '¡', '¡', '-', '-','1', '¡', '-'],
+      ['-', '-', '-', '-', '-', '¡', '%', '¡', '-', '-','-', '-', '-'],
+      ['X', '-', '-', '-', '-', '-', '-', '-', '-', '-','-', '-', '1'],
+      ['X', '-', '-', '-', '-', '-', '-', '-', '-', '-','-', '-', '1'],
+      ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-','-', '-', '-'],
+      ['-', '¡', 'X', '-', '-', '-', '-', '-', '-', '-','1', '¡', '-'],
+      ['-', '¡', '-', '-', '-', '-', '-', '-', '-', '-','-', '¡', '-']]
+
+L9 = [['-', '-', '-', '-', '-', '-', '-', '-', '-', '-','-', '-', '-','-','-','!'],
+      ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-','~', '-', '-'],
+      ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-','-', '-', '-'],
+      ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-','-', '-', '-'],
+      ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-','-', '-', '-'],
+      ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-','-', '-', '-'],
+      ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-','-', '-', '-'],
       ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-','-', '-', '-']]
 
 
@@ -412,15 +459,18 @@ while check != 0:
         x.kill()
         x.rect.center = (-55,-55) #Put self out-of-bounds -- but not (-5,-5)
     if title.endless == 1:
-      while 1:
-        R1 = genlevel()
-        levelgen(screen,R1,'Endless' ,'Endless', 'kill-all',0)
+        while 1:
+            R1 = genlevel()
+            levelgen(screen,R1,'Endless', 'Endless', 'kill-all',0)
     else:
+        levelgen(screen,L2, 'Level 1 Room 2','Get some hair on your chest','chest',2)
+        levelgen(screen,L3, 'Level 1 Room 3','I hate this guy','kill-all',6)
+        levelgen(screen,L4, 'Level 2 Room 1','Flame fun','kill-all',3)
+        levelgen(screen,L5, 'Level 2 Room 2','Honor the gods','gems',4)
+        levelgen(screen,L6, 'Level 2 Room 3', 'Getting tight', 'kill-all', 7)
+        levelgen(screen,L7, 'Level 3 Room 1','Why cant we just get along?','kill-all',5)
+        levelgen(screen,L8, 'Level 3 Room 2', 'Slime friends', 'kill-all', 8)
+        levelgen(screen,L9, 'Level 3 Room 3', ':3c', 'kill-all', 9)
 
-      levelgen(screen,L2,'Level 1 Room 2','Get some hair on your chest','chest',2)
-      levelgen(screen,L3,'Level 2 Room 1','Flame fun','kill-all',3)
-      levelgen(screen,L4,'Level 2 Room 2','Honor the gods','gems',4)
-      levelgen(screen,L5,'Level 3 Room 1','Why cant we just get along?','kill-all',5)
-      levelgen(screen,L6,'Level 3 Room 2','I hate this guy','kill-all',6)
 
     exit()

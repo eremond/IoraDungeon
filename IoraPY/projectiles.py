@@ -13,6 +13,8 @@ class projectiles(sprites.sprites):
         self.direction = player.direction
         self.type = type
         self.rect.x, self.rect.y = player.rect.center
+        self.player = player
+        self.return_loop = 0
 
     def update(self, *args):
         collision, enemy = self.collided()
@@ -27,6 +29,30 @@ class projectiles(sprites.sprites):
                     self.rect.x-=self.speed
                 if self.direction is "right":
                     self.rect.x+=self.speed
+                if self.direction is "targeting":
+                    self.speed = 3
+                    if self.return_loop < 95:
+                        if self.rect.y < self.enemies[0].rect.y:
+                            self.rect.y+=self.speed
+                        elif self.rect.y > self.enemies[0].rect.y:
+                            self.rect.y -= self.speed
+                        if self.rect.x > self.enemies[0].rect.x:
+                            self.rect.x -= self.speed
+                        elif self.rect.x < self.enemies[0].rect.x:
+                            self.rect.x += self.speed
+                    if self.return_loop >= 95:
+                        if self.rect.y < self.player.rect.y:
+                            self.rect.y+=self.speed
+                        elif self.rect.y > self.player.rect.y:
+                            self.rect.y -= self.speed
+                        if self.rect.x > self.player.rect.x:
+                            self.rect.x -= self.speed
+                        elif self.rect.x < self.player.rect.x:
+                            self.rect.x += self.speed
+                        if self.rect.y == self.player.rect.y and self.rect.x == self.player.rect.x:
+                            self.kill()
+                            self.return_loop = 0
+                    self.return_loop += 1
             elif(collision):
                 if enemy.alive():
                     self.kill()     #kill the projectile, enemy
