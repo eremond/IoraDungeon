@@ -37,6 +37,10 @@ class level():
 					self.enemies.append(enemy.enemy('Enemies/flame.png', (xSpot, ySpot), self.boxes, 1))
 				elif y is 'O':
 					self.enemies.append(boss.boss('Enemies/orc.png', (xSpot, ySpot), self.boxes))
+				elif y is 'S':
+					self.enemies.append(boss.boss('Enemies/yellow_tenta.png', (xSpot, ySpot), self.boxes))
+				elif y is '~':
+					self.enemies.append(boss.boss('Enemies/cat_staff/cat_idle/cat_idle1.png', (xSpot, ySpot), self.boxes))
 				elif y is '¡':
 					self.boxes.append(sprites.sprites('Obstacles/torch.gif', (xSpot, ySpot)))
 					self.boxGroup.add(self.boxes[counter])
