@@ -11,6 +11,12 @@ class projectiles(sprites.sprites):
         self.enemies = enemies      #takes in a list of enemies
         self.chests = chests
         self.direction = player.direction
+        if self.direction is "down":
+            self.image = pygame.transform.rotate(self.image, 90)
+        elif self.direction is "right":
+            self.image = pygame.transform.rotate(self.image, 180)
+        elif self.direction is "up":
+            self.image = pygame.transform.rotate(self.image, 270)
         self.type = type
         self.rect.x, self.rect.y = player.rect.center
         self.player = player

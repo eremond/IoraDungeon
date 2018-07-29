@@ -9,7 +9,7 @@ import titleScreen
 import time
 from randlevels import genlevel
 
-print(pygame.__path__)
+#print(pygame.__path__)
 pygame.init()
 
 # IoraPy/
@@ -26,7 +26,7 @@ def start():
         screen.fill((0,0,0))
         title.startTitle(screen)
         pygame.display.flip()
-    printer = 0
+    #printer = 0 Unused variable
 
     ### Room Loop
     while not level1.isComplete(exitGroup):
@@ -42,7 +42,7 @@ def start():
                     if tabCount >= len(element):
                         tabCount = 0
                     chosenElement = element[tabCount]
-                    print(tabCount)
+                    #print(tabCount)
                 elif event.key == pygame.K_SPACE and player.alive():
                     allSprites.add(projectiles.projectiles(player, chosenElement, enemies,chests, player.rect.center,gemtype))
                     magic.add(projectiles.projectiles(player, chosenElement, enemies,chests, player.rect.center,gemtype))
@@ -110,7 +110,7 @@ def levelgen(screen,layout,title,sub_title,conditions,L):
         allSprites.add(spr)
         obstacleGroup.add(spr)
         player.obstacles.append(spr)
-    allSprites.add(player)
+    #allSprites.add(player) Removed -- already updates
     heroGroup = pygame.sprite.Group(player)
     for chest in chests:
         if (chest.type != 'red' and chest.type != 'blue'):
@@ -159,7 +159,7 @@ def levelgen(screen,layout,title,sub_title,conditions,L):
                         tabCount = 0
                     gemtype = elements[tabCount]
                     chosenElement = element[tabCount]
-                    print(tabCount)
+                    #print(tabCount)
                 elif event.key == pygame.K_SPACE and player.alive():
                     allSprites.add(projectiles.projectiles(player, chosenElement, enemies,chests, player.rect.center,gemtype))
                     magic.add(projectiles.projectiles(player, chosenElement, enemies,chests, player.rect.center,gemtype))
@@ -297,7 +297,7 @@ def levelgen(screen,layout,title,sub_title,conditions,L):
 
 #START OF MAIN
 
-print(pygame.__path__)
+#print(pygame.__path__)
 pygame.init()
 
 ### Level Layouts ###
@@ -432,7 +432,7 @@ while check != 0:
         allSprites.add(spr)
         obstacleGroup.add(spr)
     player = player.player('Character/DownAnim/Down2.png', obstacles, (width/2, height-50))
-    allSprites.add(player)
+    #allSprites.add(player) Removed -- already updates
     heroGroup = pygame.sprite.Group(player)
     for sp in por:
         sp.target = player

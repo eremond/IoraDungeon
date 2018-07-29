@@ -26,7 +26,7 @@ class level():
 		ySpot = 16
 		for x in self.design:
 			for y in x:
-				print(y)
+				#print(y)
 				if y is '#':
 					self.boxes.append(sprites.sprites('Obstacles/box.png', (xSpot, ySpot)))
 					self.boxGroup.add(self.boxes[counter])
@@ -76,7 +76,7 @@ class level():
 			ySpot+=58"""
 
 	def isComplete(self, enemyGroup):		   #checks to see if all enemies are cleared out
-		print(enemyGroup)
+		#print(enemyGroup)
 		if not enemyGroup:
 			return True
 		return False
