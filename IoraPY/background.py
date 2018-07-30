@@ -1,7 +1,7 @@
 import os
 import pygame
 import time
-print(pygame.__path__)
+#print(pygame.__path__)
 pygame.init()
 
 def makeBackground(screen, walls, sideWalls, sideFloor, floor, topFloor, cornerFloor):

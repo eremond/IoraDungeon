@@ -10,7 +10,7 @@ class player(sprites.sprites):
 		self.obstacles = obstacles
 		self.direction = 'down'
 		self.hit = False
-		self.speed = 2
+		self.speed = 4
 		self.invinc = 0
 		self.kb = 0
 		self.kbdx = 0
