@@ -1,13 +1,24 @@
 import os
 import pygame
+import threading
+import time
 
 class sprites(pygame.sprite.Sprite):
-    def __init__(self, image, position):     #image should be a string to the path of the image
+    def __init__(self, image, position, type = ""):     #image should be a string to the path of the image
         pygame.sprite.Sprite.__init__(self)
-        self.isType = "" #"type(obj) is type" can also be used in tandem
+        self.isType = type #"type(obj) is type" can also be used in tandem
         self.image = pygame.image.load(image).convert_alpha()   #convert_alpha creates transparent background
         self.rect = self.image.get_rect()
         self.rect.center = position
+        self.count = 0
+
+    def torchup(self):
+        self.count = self.count+1
+        if self.isType == 'torch':
+            if self.count % 25 == 0:
+                self.image = pygame.image.load('Obstacles/torch1.png').convert_alpha()
+            elif self.count % 10 == 0:
+                self.image = pygame.image.load('Obstacles/torch2.png').convert_alpha()
 
     def transformImage(self, img, x, y):
         self.image = pygame.transform.scale(img, (x, y)) #x, y is new size of image

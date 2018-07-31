@@ -1,5 +1,6 @@
 ﻿import pygame
 import os
+import sys
 import background
 import sprites
 import projectiles
@@ -7,6 +8,7 @@ import player
 import level
 import titleScreen
 import time
+import threading
 from randlevels import genlevel
 
 #print(pygame.__path__)
@@ -14,6 +16,11 @@ pygame.init()
 
 # IoraPy/
 
+
+
+def lifeAfterdeath():
+    restart = sys.executable
+    os.execl(restart, restart, * sys.argv)
 
 def start():
     ### First Room Stuff
@@ -34,6 +41,11 @@ def start():
         pygame.event.pump()
         xCounter = yCounter = 0
         for event in pygame.event.get():    #event handler, checks for key presses (not holds)
+            if level1.isComplete(heroGroup):
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_TAB:
+                        lifeAfterdeath()
+
             if event.type == pygame.QUIT:
                 exit()
             elif event.type == pygame.KEYDOWN:
@@ -66,9 +78,9 @@ def start():
         textsurface = myfont.render('Welcome to the dungeon', False, (255, 255, 255))
         screen.blit(textsurface,(425,25))
         if level1.isComplete(heroGroup):
-            myfont = pygame.font.SysFont('Comic Sans MS', 50)
-            textsurface = myfont.render('Dead already?!', False, (255, 255, 255))
-            screen.blit(textsurface,(100,300))
+            myfont = pygame.font.SysFont('Comic Sans MS', 30)
+            textsurface = myfont.render('Dead already?! Press TAB to continue...', False, (255, 255, 255))
+            screen.blit(textsurface,(100,350))
         ### Exit Portal
         if level1.isComplete(enemyGroup):
             for sp in por:
@@ -77,6 +89,10 @@ def start():
                 allSprites.add(sp)
                 textsurface = myfont.render('Exit has appeared!', False, (255, 255, 255))
                 screen.blit(textsurface,(200,350))
+
+        for spr in level1.boxes:
+            threading.Timer(0.1 , spr.torchup).start()
+
         ### Keeps room running
         allSprites.update(pygame.key.get_pressed())
         allSprites.draw(screen)
@@ -148,6 +164,11 @@ def levelgen(screen,layout,title,sub_title,conditions,L):
         pygame.event.pump()
         xCounter = yCounter = 0
         for event in pygame.event.get():    #event handler, checks for key presses (not holds)
+            if levelgen.isComplete(heroGroup):
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_TAB:
+                        lifeAfterdeath()
+
             if event.type == pygame.QUIT:
                 exit()
             elif event.type == pygame.K_0:
@@ -258,8 +279,8 @@ def levelgen(screen,layout,title,sub_title,conditions,L):
                     bar = ""
         ### On-Screen Text
         if levelgen.isComplete(heroGroup):
-            myfont = pygame.font.SysFont('Comic Sans MS', 50)
-            textsurface = myfont.render('Mr.Stark I dont feel so good...', False, (255, 255, 255))
+            myfont = pygame.font.SysFont('Comic Sans MS', 25)
+            textsurface = myfont.render('Dead already?! Press TAB to continue...', False, (255, 255, 255))
             screen.blit(textsurface,(100,400))
 
         if conditions == 'chest' and levelgen.isComplete(chest3Group):
@@ -284,6 +305,9 @@ def levelgen(screen,layout,title,sub_title,conditions,L):
         myfont = pygame.font.SysFont('Comic Sans MS', 25)
         textsurface = myfont.render(sub_title, False, (255, 255, 255))
         screen.blit(textsurface,(405,25))
+
+        for spr in levelgen.boxes:
+            threading.Timer(0.1 , spr.torchup).start()
 
         ### Loop Stuff
         allSprites.update(pygame.key.get_pressed())
