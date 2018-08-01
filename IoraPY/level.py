@@ -42,7 +42,7 @@ class level():
 				elif y is '~':
 					self.enemies.append(boss.boss('Enemies/cat_staff/cat_idle/cat_idle1.png', (xSpot, ySpot), self.boxes))
 				elif y is '¡':
-					self.boxes.append(sprites.sprites('Obstacles/torch.gif', (xSpot, ySpot)))
+					self.boxes.append(sprites.sprites('Obstacles/torch.gif', (xSpot, ySpot),'torch'))
 					self.boxGroup.add(self.boxes[counter])
 				elif y is '!':
 					self.exit.append(portal.portal('images/portal.png', (xSpot, ySpot), self.boxes))
