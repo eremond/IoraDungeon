@@ -10,7 +10,6 @@ def genlevel():
 	box_count = 0
 	enemy_row = 0
 	box_row = 0
-	#print("L2: ", L2)
 	for x in range(0,7):
 		temp.clear()
 		for y in range(0,12):
@@ -21,15 +20,10 @@ def genlevel():
 					tile = '-'
 			elif tile == '#':
 				box_row += 1
-				print("Box count: ", box_count)
 				if box_row > 1 or box_count > 8 or x == 0 or y == 0:
 					tile = '-'
 			temp.append(tile)
 		level.append(temp)
-		#print(L2)
-		#temp.clear()
-		print(box_count)
-		print(enemy_count)
 		box_row = 0
 		enemy_row = 0
 		box_count += box_row
