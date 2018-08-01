@@ -52,7 +52,6 @@ def start():
                     if tabCount >= len(element):
                         tabCount = 0
                     chosenElement = element[tabCount]
-                    #print(tabCount)
                 elif event.key == pygame.K_SPACE and player.alive():
                     allSprites.add(projectiles.projectiles(player, chosenElement, enemies,chests, player.rect.center,gemtype))
                     magic.add(projectiles.projectiles(player, chosenElement, enemies,chests, player.rect.center,gemtype))
@@ -178,7 +177,6 @@ def levelgen(screen,layout,title,sub_title,conditions,L):
                         tabCount = 0
                     gemtype = elements[tabCount]
                     chosenElement = element[tabCount]
-                    #print(tabCount)
                 elif event.key == pygame.K_SPACE and player.alive():
                     allSprites.add(projectiles.projectiles(player, chosenElement, enemies,chests, player.rect.center,gemtype))
                     magic.add(projectiles.projectiles(player, chosenElement, enemies,chests, player.rect.center,gemtype))
@@ -319,7 +317,6 @@ def levelgen(screen,layout,title,sub_title,conditions,L):
 
 #START OF MAIN
 
-#print(pygame.__path__)
 pygame.init()
 
 ### Level Layouts ###
