@@ -11,7 +11,6 @@ import time
 import threading
 from randlevels import genlevel
 
-#print(pygame.__path__)
 pygame.init()
 
 # IoraPy/
@@ -33,7 +32,6 @@ def start():
         screen.fill((0,0,0))
         title.startTitle(screen)
         pygame.display.flip()
-    #printer = 0 Unused variable
 
     ### Room Loop
     while not level1.isComplete(exitGroup):
